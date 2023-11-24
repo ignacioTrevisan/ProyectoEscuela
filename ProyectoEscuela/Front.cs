@@ -15,15 +15,17 @@ using NotasAlumnos;
 using Negocio;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using static ProyectoEscuela.inicioSesion;
+using NegocioAlumnos;
 
 namespace ProyectoEscuela
 {
     public partial class Front : Form
     {
-        string cargo = "";
+        string cargo = GlobalVariables.cargo;
         public Front()
         {
             InitializeComponent();
+            int i = GlobalVariables.id;
             
              
         }
@@ -31,7 +33,7 @@ namespace ProyectoEscuela
 
         private void btn_nuevoAlumno_Click(object sender, EventArgs e)
         {
-            if (cargo == "")
+            if ( cargo == "Director")
             {
                 NuevoAlumno formulario = new NuevoAlumno();
                 formulario.ShowDialog();
@@ -59,8 +61,15 @@ namespace ProyectoEscuela
 
         private void button2_Click(object sender, EventArgs e)
         {
-            consulta f = new consulta();
-            f.ShowDialog();
+            if (cargo == "Director")
+            {
+                consulta f = new consulta();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No posee permisos para acceder a este area ");
+            }
         }
 
         private void Front_Load(object sender, EventArgs e)

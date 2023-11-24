@@ -28,5 +28,10 @@ namespace NotasAlumnos
             int id = 0;
             return id = NotasDatos.registroNotas(materia, alumno, nota, profesor);
         }
+        public static int eliminarNota(int id) 
+        {
+            int i = 0;
+            return NotasDatos.Eliminar(id);
+        }
     }
 }

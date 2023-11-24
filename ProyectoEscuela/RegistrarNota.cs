@@ -25,6 +25,7 @@ namespace ProyectoEscuela
         public List<Nota> notas = new List<Nota>();
         public List<Nota> lista = new List<Nota>();
         public List <Alumno> alumnos = new List<Alumno> ();
+        List<Nota> alumno = new List<Nota>();
         int i = 0;
         public string materia = "";
         public string curso = "";
@@ -80,7 +81,6 @@ namespace ProyectoEscuela
             curso = lista[i].Curso;
             division = lista[i].Division;
             int idProfesor = GlobalVariables.id;
-            MessageBox.Show("materia: " + materia + " .curso: " + curso + " division: " + division + " idprofesor: " + idProfesor);
             return notas = NotasNegocio.GetNotas(curso, division, materia, idProfesor);
         }
 
@@ -97,13 +97,20 @@ namespace ProyectoEscuela
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
-            registrar();
+            if (!string.IsNullOrEmpty(comboBox1.Text) && (!string.IsNullOrEmpty(comboBox2.Text)) && (!string.IsNullOrEmpty(txtNota.Text)))
+            {
+                registrar();
+            }
+            else 
+            {
+                MessageBox.Show("Para registrar notas primero debe ingresar el curso, materia, alumno y su nota ");
+            }
         }
 
         public void registrar()
         {
             int id = comboBox2.SelectedIndex;
-            MessageBox.Show(alumnos[i].Nombre);
+            
             NotasNegocio.registrarNotas(materia, alumnos[id].Dni, txtNota.Text, GlobalVariables.id);
             actualizarPorAlumno();
         }
@@ -111,12 +118,23 @@ namespace ProyectoEscuela
         public void actualizarPorAlumno() 
         {
             int id = comboBox2.SelectedIndex;
-            List<Nota> alumno = new List<Nota>();
+            
             alumno = NotasNegocio.GetNotasXAlumno(alumnos[id].Dni, materia, GlobalVariables.id, alumnos[id].Curso, alumnos[id].division);
             bindingSource1.DataSource = null;
             bindingSource1.DataSource = alumno;
             dataGridView1.DataSource = bindingSource1;
-
+            int cantidadDeNotas = alumno.Count();
+            int r = 0;
+            float nota = 0;
+            while (r < cantidadDeNotas)
+            {
+                 nota = nota + Convert.ToInt64(alumno[r].Calificacion);
+                 r++;
+            }
+            nota = nota / alumno.Count();
+            label1.Visible = true;
+            label1.Text = "Promedio parcial: "+ nota.ToString();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -153,6 +171,30 @@ namespace ProyectoEscuela
         {
             actualizarPorAlumno();
         }
-       
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // verificar si se hizo clic en una celda válida
+                {
+                    DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (cell.Value != null) // verificar si la celda tiene algún valor
+                    {
+                        int j = cell.RowIndex;
+
+
+                    DialogResult result = MessageBox.Show("¿Seguro que desea eliminar esta nota?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        // Usuario hizo clic en 'Sí', proceder con la eliminación
+                        NotasNegocio.eliminarNota(alumno[j].id);
+                    }
+                }
+                }
+            actualizarPorAlumno();
+
+
+        }
     }
 }

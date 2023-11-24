@@ -8,6 +8,7 @@ namespace EntidadNota
 {
     public class Nota
     {
+        public int id { get; set; }
         public string Materia { get; set; }
         public string Curso { get; set; }
         public string Division { get; set; }

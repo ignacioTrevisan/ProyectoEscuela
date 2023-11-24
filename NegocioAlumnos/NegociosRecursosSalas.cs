@@ -15,9 +15,9 @@ namespace NegocioAlumnos
         {
             return DatosRecursosSalas.GetReservas(lista);
         }
-        public static int RegistrarReservas(string recurso, string fecha, string estado, string comentario, string profesor, string tiempoReserva)    
+        public static int RegistrarReservas(string recurso, string fecha,string horario, string estado, string comentario, string profesor)    
         {
-            int id = DatosRecursosSalas.RegistrarReservas(recurso, fecha, estado, comentario, profesor, tiempoReserva);
+            int id = DatosRecursosSalas.RegistrarReservas(recurso, fecha,horario, estado, comentario, profesor);
             return id;
         }
         public static List<string> GetRecursos() 

@@ -11,6 +11,28 @@ namespace DatosNotas
 {
     public class NotasDatos
     {
+        public static int Eliminar(int id)
+        {
+            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand("EliminarNota", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@id", id);
+                try
+                {
+                    connection.Open();
+                    int idAlumnoCreado = Convert.ToInt32(command.ExecuteScalar());
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                return 1;
+            }
+        }
+
         public static List<Nota> GetNotas(string curso, string division, string materia, int idProfesor)
         {
             List<Nota> notasLista = new List<Nota>();
@@ -32,6 +54,7 @@ namespace DatosNotas
                     while (reader.Read())
                     {
                         Nota n = new Nota();
+                        n.id = Convert.ToInt16(reader["id"]);
                         n.Nombre = Convert.ToString(reader["nombre"]);
                         n.Apellido = Convert.ToString(reader["apellido"]);
                         n.Materia = Convert.ToString(reader["materia"]);
@@ -61,7 +84,7 @@ namespace DatosNotas
             {
                 SqlCommand command = new SqlCommand("GetNotasXAlumno", connection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
-
+               
                 command.Parameters.AddWithValue("@dni", dni);
                 command.Parameters.AddWithValue("@materia", materia);
                 command.Parameters.AddWithValue("@idprofesor", idProfesor);
@@ -76,6 +99,7 @@ namespace DatosNotas
                     while (reader.Read())
                     {
                         Nota n = new Nota();
+                        n.id = Convert.ToInt16(reader["id"]);
                         n.Dni = Convert.ToString(reader["DniAlumno"]);
                         n.Nombre = Convert.ToString(reader["nombre"]);
                         n.Apellido = Convert.ToString(reader["apellido"]);

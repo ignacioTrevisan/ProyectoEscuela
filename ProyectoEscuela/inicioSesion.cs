@@ -22,7 +22,7 @@ namespace ProyectoEscuela
         }
         public static class GlobalVariables
         {
-            public static string cargo = "hola";
+            public static string cargo = "";
             public static string apellido = "";
             public static string nombre = "";
             public static string año = "";
@@ -38,12 +38,13 @@ namespace ProyectoEscuela
             p.dni = Convert.ToDouble(txt_dni.Text);
             p.pass = txt_contraseña.Text;
             buscarcargo(p);
+            
         }
         public void buscarcargo(Permisos p)
         {
 
             Permisos idEmp = Negocio.NegocioAlumnos.buscarCargo(p);
-
+             
 
             if (p.Desc == "profesor" || p.Desc == "Director")
             {

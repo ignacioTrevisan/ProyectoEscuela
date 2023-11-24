@@ -22,6 +22,12 @@ namespace ProyectoEscuela
             InitializeComponent();
             getRecursos();
             getdos();
+            numericUpDown1.Maximum = 20;
+            numericUpDown1.Minimum = 7;
+            /*
+             string hora = Convert.ToString(dateTimePicker2.Value.AddHours(2).AddMinutes(5));
+             //MessageBox.Show(hora);
+            */
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -46,10 +52,11 @@ namespace ProyectoEscuela
             string recurso = comboBox2.Text;
             string estado = textBox1.Text;
             DateTime fecha = dateTimePicker1.Value.Date;
+            string horario = Convert.ToString(numericUpDown1.Value);
             string fechados = Convert.ToString(fecha);
             string id = Convert.ToString(GlobalVariables.id);
             string comentarios = textBox3.Text;
-            string tiempoReserva = textBox2.Text;
+           
             if (comentarios == "") 
             {
                 comentarios = "--";
@@ -58,12 +65,34 @@ namespace ProyectoEscuela
             {
                 estado = "--";
             }
-            if (!string.IsNullOrEmpty(recurso) && !string.IsNullOrEmpty(tiempoReserva))
+            if (!string.IsNullOrEmpty(recurso) && !string.IsNullOrEmpty(horario))
             {
-                NegociosRecursosSalas.RegistrarReservas(recurso, fechados, estado, comentarios, id, tiempoReserva);
+                int res = NegociosRecursosSalas.RegistrarReservas(recurso, fechados,horario, estado, comentarios, id);
                 dataGridView1.Rows.Clear();
                 lista = NegociosRecursosSalas.GetReservas(lista);
                 refreshgrid();
+                if (res == 1)
+                {
+                    MessageBox.Show("Carga exitosa");
+                }
+                else 
+                {
+                    MessageBox.Show("Este recurso ya esta reservado para ese dia y horario. ");
+                    DialogResult result = MessageBox.Show("¿Desea modificar crear otra reserva?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        
+                    }
+                    else
+                    {
+                        textBox1.Text = "";
+                        textBox3.Text = "";
+                        textBox4.Text = "";
+                        panel1.Visible = false;
+                        button3.Visible = true;
+                    }
+                }
             }
             else 
             {
@@ -105,6 +134,12 @@ namespace ProyectoEscuela
             dataGridView1.Rows.Clear();
             lista = NegociosRecursosSalas.GetReservas(lista);
             refreshgrid();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = true;
+            button3.Visible = false;
         }
     }
 }
