@@ -97,9 +97,13 @@ namespace ProyectoEscuela
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            
+            string nota = txtNota.Text;
+            string comentario = "";
+            comentario = textBox2.Text;
             if (!string.IsNullOrEmpty(comboBox1.Text) && (!string.IsNullOrEmpty(comboBox2.Text)) && (!string.IsNullOrEmpty(txtNota.Text)))
             {
-                registrar();
+                registrar(nota, comentario);
             }
             else 
             {
@@ -107,11 +111,11 @@ namespace ProyectoEscuela
             }
         }
 
-        public void registrar()
+        public void registrar(string nota, string comentario)
         {
             int id = comboBox2.SelectedIndex;
-            
-            NotasNegocio.registrarNotas(materia, alumnos[id].Dni, txtNota.Text, GlobalVariables.id);
+            DateTime fecha = dateTimePicker1.Value.Date;    
+            NotasNegocio.registrarNotas(materia, alumnos[id].Dni, nota, GlobalVariables.id, fecha, comentario);
             actualizarPorAlumno();
         }
 
@@ -195,6 +199,33 @@ namespace ProyectoEscuela
             actualizarPorAlumno();
 
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Ésta opción es para registrar notas finales de cierre de materia, recomendamos generar informe para tener seguimiento. ¿Esta seguro que desea registrar la nota final?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                panel1.Visible = true;
+                button2.Visible = false;
+
+            }
+            
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string nota = textBox1.Text;
+            string comentario = "nota final";
+            if (!string.IsNullOrEmpty(comboBox1.Text) && (!string.IsNullOrEmpty(comboBox2.Text)) && (!string.IsNullOrEmpty(txtNota.Text)))
+            {
+                registrar(nota, comentario);
+            }
+            else
+            {
+                MessageBox.Show("Para registrar notas primero debe ingresar el curso, materia, alumno y su nota ");
+            }
         }
     }
 }

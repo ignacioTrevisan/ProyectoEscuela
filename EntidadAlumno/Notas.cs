@@ -18,6 +18,8 @@ namespace EntidadNota
         public string Calificacion { get; set; }
 
         public string comentario { get; set; }
+
+        public string fecha { get; set; }
         
     }
 }

@@ -16,13 +16,8 @@ using Negocio;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using static ProyectoEscuela.inicioSesion;
 using NegocioAlumnos;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.IO.Image;
-using iText.Kernel.Colors;
-using iText.Kernel.Font;
-using iText.Layout.Properties;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System.Diagnostics;
 using System.IO;
 
@@ -99,7 +94,45 @@ namespace ProyectoEscuela
             formulario.ShowDialog();
         }
 
-       
-        
+        private void button4_Click(object sender, EventArgs e)
+        {
+            FileStream fs = new FileStream(@"C:\Users\nacho\Documentos\informes\pdfGenerado.pdf", FileMode.Create);
+            Document doc = new Document(PageSize.LETTER,5,5,7,7);
+            PdfWriter pw = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            doc.AddAuthor(cargo);
+            doc.AddTitle(GlobalVariables.cargo);
+
+            iTextSharp.text.Font stamdarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+            doc.Add(new Paragraph(GlobalVariables.cargo));
+            doc.Add(Chunk.NEWLINE);
+
+            PdfPTable tablaejemplo = new PdfPTable(3);
+            tablaejemplo.WidthPercentage = 100;
+
+            PdfPCell clnombre = new PdfPCell(new Phrase("Nombre", stamdarFont));
+            clnombre.BorderWidth = 0;
+            clnombre.BorderWidthBottom = 0.75f;
+
+
+            PdfPCell clapellido = new PdfPCell(new Phrase("Apellido", stamdarFont));
+            clapellido.BorderWidth = 0;
+            clapellido.BorderWidthBottom = 0.75f;
+
+            PdfPCell clEdad = new PdfPCell(new Phrase("Edad", stamdarFont));
+            clEdad.BorderWidth = 0;
+            clEdad.BorderWidthBottom = 0.75f;
+
+            tablaejemplo.AddCell(clnombre);
+            tablaejemplo.AddCell(clapellido);
+            tablaejemplo.AddCell(clEdad);
+            doc.Add(tablaejemplo);
+            doc.Close();
+            pw.Close();
+        }
+
     }
 }

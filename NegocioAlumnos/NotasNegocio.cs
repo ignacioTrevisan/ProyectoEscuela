@@ -23,15 +23,25 @@ namespace NotasAlumnos
             return alumno = NotasDatos.GetNotasXAlumno(dni, materia, idProfesor, curso, division);
         }
 
-        public static int registrarNotas(string materia, string alumno, string nota, int profesor)
+        public static int registrarNotas(string materia, string alumno, string nota, int profesor, DateTime fecha, string comentario)
      {
             int id = 0;
-            return id = NotasDatos.registroNotas(materia, alumno, nota, profesor);
+            return id = NotasDatos.registroNotas(materia, alumno, nota, profesor, fecha, comentario);
         }
         public static int eliminarNota(int id) 
         {
             int i = 0;
             return NotasDatos.Eliminar(id);
+        }
+
+        public static List<Nota> GetNotasXdni(string dni, string v)
+        {
+            return DatosNotas.NotasDatos.GetNotasXdni(dni, v);
+        }
+
+        public static List<boletin> armarboletin(string dni)
+        {
+            return NotasDatos.armarboletin(dni);
         }
     }
 }

@@ -286,20 +286,45 @@ namespace DatosAlumnos
             }
             return list;
         }
-        public static int buscarfaltas(string dni)
+        
+
+        public static List<Faltas> buscarfaltas(string dni)
         {
-            string query = "SELECT count(*) from asistencias where dni = @dni AND estado = 'ausente'";
+            List<Faltas> list = new List<Faltas>();
+
+
             string conString = System.Configuration.ConfigurationManager.ConnectionStrings["ConexionDB"].ConnectionString;
             using (SqlConnection Connection = new SqlConnection(conString))
             {
-                Connection.Open();
-                SqlCommand command = new SqlCommand(query, Connection);
+                SqlCommand command = new SqlCommand("verFaltas", Connection);
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@dni", dni);
 
-                int count = (int)command.ExecuteScalar();
-                return count;
-            }
-        }
+                try
+                {
+                    Connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
 
+
+                    while (reader.Read())
+                    {
+                        Faltas busqueda = new Faltas();
+                        busqueda.fecha = Convert.ToString(reader["fecha"]);
+                        busqueda.estado = Convert.ToString(reader["estado"]);
+                        list.Add(busqueda);
+
+                    }
+
+                    reader.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            return list;
+        }
     }
 }

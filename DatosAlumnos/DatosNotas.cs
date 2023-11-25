@@ -1,5 +1,6 @@
 ﻿using EntidadAlumno;
 using EntidadNota;
+using EntidadProfesor;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,6 +12,42 @@ namespace DatosNotas
 {
     public class NotasDatos
     {
+        public static List<boletin> armarboletin(string dni)
+        {
+            List<boletin> boletin = new List<boletin>();
+            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand("ArmarBoletin", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@dni", dni);
+                
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        boletin b = new boletin();
+                        
+                        b.materia = Convert.ToString(reader["materia"]);
+                        b.nota = Convert.ToString(reader["nota"]);
+                        
+                        boletin.Add(b);
+                    }
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            return boletin;
+        }
+
         public static int Eliminar(int id)
         {
             string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
@@ -62,6 +99,7 @@ namespace DatosNotas
                         n.Curso = Convert.ToString(reader["año"]);
                         n.Division = Convert.ToString(reader["division"]);
                         n.Calificacion = Convert.ToString(reader["nota"]);
+                        n.fecha = Convert.ToString(reader["fecha"]);
                         notasLista.Add(n);
                     }
 
@@ -108,6 +146,7 @@ namespace DatosNotas
                         n.Division = Convert.ToString(reader["Division"]);
                         n.Calificacion = Convert.ToString(reader["nota"]);
                         n.comentario = Convert.ToString(reader["Comentario"]);
+                        n.fecha = Convert.ToString(reader["fecha"]);
                         alumno.Add(n);
                     }
 
@@ -122,7 +161,45 @@ namespace DatosNotas
         
         }
 
-        public static int registroNotas(string materia, string alumno, string nota, int profesor)
+        public static List<Nota> GetNotasXdni(string dni, string v)
+        {
+            List<Nota> alumno = new List<Nota>();
+            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conString)) 
+            {
+                SqlCommand command = new SqlCommand("GetNotasXdni", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@dni", dni);
+                command.Parameters.AddWithValue("@deno", v);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        Nota n = new Nota();
+                        n.id = Convert.ToInt16(reader["ID"]);
+                        n.Dni = Convert.ToString(reader["DniAlumno"]);
+                        n.Calificacion = Convert.ToString(reader["nota"]);
+                        n.comentario = Convert.ToString(reader["Comentario"]);
+                        n.fecha = Convert.ToString(reader["fecha"]);
+                        alumno.Add(n);
+                    }
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                return alumno;
+            }
+        }
+
+        public static int registroNotas(string materia, string alumno, string nota, int profesor, DateTime fecha, string comentario)
         {
             int idAlumnoCreado = 0;
             string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
@@ -137,6 +214,8 @@ namespace DatosNotas
                 command.Parameters.AddWithValue("@materia", Convert.ToString(materia));
                 command.Parameters.AddWithValue("@nota", Convert.ToString(nota));
                 command.Parameters.AddWithValue("@idprofesor", (profesor));
+                command.Parameters.AddWithValue("@fecha", fecha);
+                command.Parameters.AddWithValue("@Comentario", comentario);
 
                 try
                 {

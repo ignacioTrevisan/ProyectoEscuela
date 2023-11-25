@@ -110,6 +110,11 @@ namespace Negocio
             return AlumnosDatos.Get( dni, curso, division);
         }
 
+        public static List<Faltas> BuscarFaltas(string dni)
+        {
+
+            return AlumnosDatos.buscarfaltas(dni);
+        }
     }
    
 }
