@@ -38,14 +38,17 @@
             this.txtCurso = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apellidoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dniDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cursoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.divisionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.materiaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.notaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.divisionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dni = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaNacimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Domicilio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Curso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.division = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cantidadFaltas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -62,9 +65,9 @@
             this.groupBox1.Controls.Add(this.txtCurso);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(23, 24);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(510, 54);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -72,7 +75,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(427, 20);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(56, 19);
             this.button1.TabIndex = 6;
@@ -83,7 +86,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(320, 23);
-            this.txtDni.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDni.Margin = new System.Windows.Forms.Padding(2);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(76, 20);
             this.txtDni.TabIndex = 5;
@@ -101,7 +104,7 @@
             // txtDivision
             // 
             this.txtDivision.Location = new System.Drawing.Point(193, 20);
-            this.txtDivision.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDivision.Margin = new System.Windows.Forms.Padding(2);
             this.txtDivision.Name = "txtDivision";
             this.txtDivision.Size = new System.Drawing.Size(76, 20);
             this.txtDivision.TabIndex = 3;
@@ -119,7 +122,7 @@
             // txtCurso
             // 
             this.txtCurso.Location = new System.Drawing.Point(44, 20);
-            this.txtCurso.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCurso.Margin = new System.Windows.Forms.Padding(2);
             this.txtCurso.Name = "txtCurso";
             this.txtCurso.Size = new System.Drawing.Size(76, 20);
             this.txtCurso.TabIndex = 1;
@@ -139,16 +142,19 @@
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nombreDataGridViewTextBoxColumn,
-            this.apellidoDataGridViewTextBoxColumn,
-            this.dniDataGridViewTextBoxColumn,
-            this.cursoDataGridViewTextBoxColumn,
             this.divisionDataGridViewTextBoxColumn,
-            this.materiaDataGridViewTextBoxColumn,
-            this.notaDataGridViewTextBoxColumn});
+            this.Nombre,
+            this.Apellido,
+            this.Dni,
+            this.FechaNacimiento,
+            this.Domicilio,
+            this.Email,
+            this.Curso,
+            this.division,
+            this.cantidadFaltas});
             this.dataGridView1.DataSource = this.bindingSource1;
             this.dataGridView1.Location = new System.Drawing.Point(23, 110);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -156,37 +162,9 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // nombreDataGridViewTextBoxColumn
+            // bindingSource1
             // 
-            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "nombre";
-            this.nombreDataGridViewTextBoxColumn.HeaderText = "nombre";
-            this.nombreDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            this.nombreDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // apellidoDataGridViewTextBoxColumn
-            // 
-            this.apellidoDataGridViewTextBoxColumn.DataPropertyName = "apellido";
-            this.apellidoDataGridViewTextBoxColumn.HeaderText = "apellido";
-            this.apellidoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.apellidoDataGridViewTextBoxColumn.Name = "apellidoDataGridViewTextBoxColumn";
-            this.apellidoDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // dniDataGridViewTextBoxColumn
-            // 
-            this.dniDataGridViewTextBoxColumn.DataPropertyName = "dni";
-            this.dniDataGridViewTextBoxColumn.HeaderText = "dni";
-            this.dniDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.dniDataGridViewTextBoxColumn.Name = "dniDataGridViewTextBoxColumn";
-            this.dniDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // cursoDataGridViewTextBoxColumn
-            // 
-            this.cursoDataGridViewTextBoxColumn.DataPropertyName = "curso";
-            this.cursoDataGridViewTextBoxColumn.HeaderText = "curso";
-            this.cursoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.cursoDataGridViewTextBoxColumn.Name = "cursoDataGridViewTextBoxColumn";
-            this.cursoDataGridViewTextBoxColumn.Width = 125;
+            this.bindingSource1.DataSource = typeof(EntidadAlumno.Alumno);
             // 
             // divisionDataGridViewTextBoxColumn
             // 
@@ -196,25 +174,59 @@
             this.divisionDataGridViewTextBoxColumn.Name = "divisionDataGridViewTextBoxColumn";
             this.divisionDataGridViewTextBoxColumn.Width = 125;
             // 
-            // materiaDataGridViewTextBoxColumn
+            // Nombre
             // 
-            this.materiaDataGridViewTextBoxColumn.DataPropertyName = "materia";
-            this.materiaDataGridViewTextBoxColumn.HeaderText = "materia";
-            this.materiaDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.materiaDataGridViewTextBoxColumn.Name = "materiaDataGridViewTextBoxColumn";
-            this.materiaDataGridViewTextBoxColumn.Width = 125;
+            this.Nombre.DataPropertyName = "Nombre";
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
             // 
-            // notaDataGridViewTextBoxColumn
+            // Apellido
             // 
-            this.notaDataGridViewTextBoxColumn.DataPropertyName = "nota";
-            this.notaDataGridViewTextBoxColumn.HeaderText = "nota";
-            this.notaDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.notaDataGridViewTextBoxColumn.Name = "notaDataGridViewTextBoxColumn";
-            this.notaDataGridViewTextBoxColumn.Width = 125;
+            this.Apellido.DataPropertyName = "Apellido";
+            this.Apellido.HeaderText = "Apellido";
+            this.Apellido.Name = "Apellido";
             // 
-            // bindingSource1
+            // Dni
             // 
-            this.bindingSource1.DataSource = typeof(EntidadAlumno.Promedio);
+            this.Dni.DataPropertyName = "Dni";
+            this.Dni.HeaderText = "Dni";
+            this.Dni.Name = "Dni";
+            // 
+            // FechaNacimiento
+            // 
+            this.FechaNacimiento.DataPropertyName = "FechaNacimiento";
+            this.FechaNacimiento.HeaderText = "FechaNacimiento";
+            this.FechaNacimiento.Name = "FechaNacimiento";
+            // 
+            // Domicilio
+            // 
+            this.Domicilio.DataPropertyName = "Domicilio";
+            this.Domicilio.HeaderText = "Domicilio";
+            this.Domicilio.Name = "Domicilio";
+            // 
+            // Email
+            // 
+            this.Email.DataPropertyName = "Email";
+            this.Email.HeaderText = "Email";
+            this.Email.Name = "Email";
+            // 
+            // Curso
+            // 
+            this.Curso.DataPropertyName = "Curso";
+            this.Curso.HeaderText = "Curso";
+            this.Curso.Name = "Curso";
+            // 
+            // division
+            // 
+            this.division.DataPropertyName = "division";
+            this.division.HeaderText = "division";
+            this.division.Name = "division";
+            // 
+            // cantidadFaltas
+            // 
+            this.cantidadFaltas.DataPropertyName = "cantidadFaltas";
+            this.cantidadFaltas.HeaderText = "cantidadFaltas";
+            this.cantidadFaltas.Name = "cantidadFaltas";
             // 
             // consulta
             // 
@@ -223,7 +235,7 @@
             this.ClientSize = new System.Drawing.Size(960, 384);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "consulta";
             this.Text = "consulta";
             this.groupBox1.ResumeLayout(false);
@@ -246,12 +258,15 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn apellidoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dniDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cursoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn divisionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn materiaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn notaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaNacimiento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Domicilio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Curso;
+        private System.Windows.Forms.DataGridViewTextBoxColumn division;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cantidadFaltas;
     }
 }

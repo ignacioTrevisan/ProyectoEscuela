@@ -76,7 +76,7 @@ namespace DatosAlumnos
             }
 
         }
-        public static int buscar(Alumno a)
+        public static int buscar(Alumno a, string curso, string division)
         {
             int idAlumnoCreado = 0;
             string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
@@ -88,6 +88,11 @@ namespace DatosAlumnos
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@dni", Convert.ToDouble(a.Dni));
+                if (curso != "-" && division != "-") 
+                {
+                    command.Parameters.AddWithValue("@año", Convert.ToDouble(a.Curso));
+                    command.Parameters.AddWithValue("@division", Convert.ToDouble(a.Curso));
+                }
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.Read())
@@ -217,7 +222,7 @@ namespace DatosAlumnos
                         busqueda.Telefono = Convert.ToString(reader["telefono"]);
                         busqueda.Curso = Convert.ToString(reader["año"]);
                         busqueda.division = Convert.ToString(reader["division"]);
-                        busqueda.cantidadFaltas = buscarfaltas(busqueda.Dni);
+                        busqueda.cantidadFaltas = Convert.ToInt32(reader["CantidadAusencias"]);
                         busqueda.Id = Convert.ToInt32(reader["id"]);
                         list.Add(busqueda);
                     }
@@ -264,7 +269,8 @@ namespace DatosAlumnos
                         busqueda.Curso = Convert.ToString(reader["año"]);
                         busqueda.division = Convert.ToString(reader["division"]);
                         busqueda.Id = Convert.ToInt32(reader["id"]);
-                        busqueda.cantidadFaltas = buscarfaltas(busqueda.Dni);
+                        busqueda.cantidadFaltas = Convert.ToInt32(reader["CantidadAusencias"]);
+                     
                         list.Add(busqueda);
 
                     }

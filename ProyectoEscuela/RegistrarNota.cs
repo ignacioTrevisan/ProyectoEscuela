@@ -175,10 +175,10 @@ namespace ProyectoEscuela
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
-                if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // verificar si se hizo clic en una celda válida
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
                     DataGridViewCell cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    if (cell.Value != null) // verificar si la celda tiene algún valor
+                    if (cell.Value != null) 
                     {
                         int j = cell.RowIndex;
 
@@ -187,7 +187,7 @@ namespace ProyectoEscuela
 
                     if (result == DialogResult.Yes)
                     {
-                        // Usuario hizo clic en 'Sí', proceder con la eliminación
+                       
                         NotasNegocio.eliminarNota(alumno[j].id);
                     }
                 }

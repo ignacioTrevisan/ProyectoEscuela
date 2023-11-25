@@ -210,7 +210,7 @@ namespace ProyectoEscuela
             {
                 Alumno a = new Alumno();
                 a.Dni = Convert.ToString(txt_dni.Text);
-                int idEmp = Negocio.NegocioAlumnos.buscar(a);
+                int idEmp = Negocio.NegocioAlumnos.buscar(a,"-","-");
                 txt_nombre.Text = a.Nombre;
                 txt_apellido.Text = a.Apellido;
                 DateTime fecha = txt_fechaNacimiento.Value;

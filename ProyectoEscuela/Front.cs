@@ -16,18 +16,28 @@ using Negocio;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using static ProyectoEscuela.inicioSesion;
 using NegocioAlumnos;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Layout.Properties;
+using System.Diagnostics;
+using System.IO;
 
 namespace ProyectoEscuela
 {
     public partial class Front : Form
     {
         string cargo = GlobalVariables.cargo;
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/DocumentosPDF";
         public Front()
         {
             InitializeComponent();
             int i = GlobalVariables.id;
+
             
-             
         }
        
 
@@ -46,7 +56,7 @@ namespace ProyectoEscuela
 
         private void btn_asistencias_Click(object sender, EventArgs e)
         {
-            if (cargo == "")
+            if (cargo == "profesor")
             {
                 TomarAsistencia formulario = new TomarAsistencia();
                 formulario.ShowDialog();
@@ -88,5 +98,8 @@ namespace ProyectoEscuela
             RecursosSalas formulario = new RecursosSalas();
             formulario.ShowDialog();
         }
+
+       
+        
     }
 }

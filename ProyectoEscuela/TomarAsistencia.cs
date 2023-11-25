@@ -12,79 +12,98 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ProyectoEscuela.Front;
 using NegocioAlumnos;
-
-
+using EntidadNota;
+using static ProyectoEscuela.inicioSesion;
 
 namespace ProyectoEscuela
 {
     public partial class TomarAsistencia : Form
     {
         public int id = 1;
+        int i = 0;
+        public int al = 0;
+        public List<Nota> lista = new List<Nota>();
+        public List <Alumno> alumnos = new List<Alumno> ();
         public TomarAsistencia()
         {
             InitializeComponent();
-            siguiente();
-        }
-
-        private void btn_presente_Click(object sender, EventArgs e)
-        {
-            siguiente();
-        }
-        public void siguiente()
-        {
-
-            string query = "SELECT COUNT(*) FROM Alumnos";
-            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
-            using (SqlConnection connection = new SqlConnection(conString))
-            {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand(query, connection);
-
-                int count = (int)cmd.ExecuteScalar();
             
-                connection.Close();
-
-                if (id <= count)
+            lista = GetCursos(GlobalVariables.id);
+           
+           
+            i = 0;
+            int o = 1;
+            while (i < lista.Count) 
+            {
+               
+                o = 0;
+                while (o < lista.Count) 
                 {
-                    string traerdni = "SELECT DNI FROM Alumnos WHERE id = @id";
-                    string traernombre = "SELECT NOMBRE FROM Alumnos WHERE id = @id";
                     
-                    string conStringdos = System.Configuration.ConfigurationManager.ConnectionStrings["conexionDB"].ConnectionString;
-                    using (SqlConnection connectiondos = new SqlConnection(conStringdos))
+                    int tam = lista.Count;
+                    if (lista[i].Curso == lista[o].Curso && lista[i].Division == lista[o].Division)
                     {
-                        connectiondos.Open();
-                        SqlCommand cmddos = new SqlCommand(traernombre, connectiondos);
-                        SqlCommand cmdtres = new SqlCommand(traerdni, connectiondos);
-                        cmddos.Parameters.AddWithValue("@id", id);
-                        cmdtres.Parameters.AddWithValue("@id", id);
-                        string nombres = (string)cmddos.ExecuteScalar();
-                        double dni = (double)cmdtres.ExecuteScalar();
-                        label1.Text = Convert.ToString(dni);
-                        lbl_alumno.Text = nombres;
-                        id = id + 1;
-                        connectiondos.Close();
+                        lista.RemoveAt(o);
                     }
+                    o++;
                 }
-                else 
-                {
-                    MessageBox.Show("No hay alumno ");
-                }
+                i++;
+            }
+            i = 0;
+            while (i < lista.Count)
+            {
+                comboBox1.Items.Add("curso: " + lista[i].Curso + " Division: " + lista[i].Division);
+                i++;
             }
         }
+
+       
+        public static List<Nota> GetCursos(int id)
+        {
+            List<Nota> lista = new List<Nota>();
+            lista = NegocioProfesor.GetPermisos(id);
+            int tam = lista.Count;
+            int i = 0;
+            return lista;
+        }
+       
 
         private void btn_buscarAlumno_Click(object sender, EventArgs e)
         {
             string dni = textBox1.Text;
-            buscar(dni);
+            int a = comboBox1.SelectedIndex;
+            string curso = lista[a].Curso;
+            string division = lista[a].Division;
+            buscar(dni, curso, division);
         }
-        public void buscar(string dni) 
+        public void buscar(string dni, string curso, string division) 
         {
-            Alumno a = new Alumno();
-            a.Dni = Convert.ToString(dni);
-            int idEmp = Negocio.NegocioAlumnos.buscar(a);
-            lbl_alumno.Text = a.Nombre;
-            label1.Text =   a.Dni;
-            id = a.Id+1;
+            List<Alumno> a = new List<Alumno>();
+            double dnis = Convert.ToInt64(textBox1.Text);
+            a = Negocio.NegocioAlumnos.Get(dnis, curso, division);
+            if (a.Count > 0)
+            {
+                lbl_alumno.Text = a[0].Nombre + " " + a[0].Apellido;
+                label1.Text = a[0].Dni;
+                al = 0;
+                bool comprobar = false;
+                while (comprobar == false) 
+                {
+                    if (alumnos[al].Dni != a[0].Dni)
+                    {
+                        al++;
+                    }
+                    else 
+                    {
+                        comprobar = true;
+                    }
+                }
+            }
+            else 
+            {
+                MessageBox.Show("No se encuentra este alumno, ten en cuenta de seleccionar bien el curso ");
+            }
+          
         }
         private Boolean verificarRegistro()
         {
@@ -135,6 +154,28 @@ namespace ProyectoEscuela
             string fecha = Convert.ToString(fechacompleta);
             registrarestado(estado, fecha, dni);
             
+        }
+
+        public void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int a = comboBox1.SelectedIndex;
+            string curso = lista[a].Curso;
+            string division = lista[a].Division;
+            alumnos = Negocio.NegocioAlumnos.Get(0, curso, division);
+            lbl_alumno.Text = alumnos[0].Nombre +" "+ alumnos[0].Apellido;
+            label1.Text = alumnos[0].Dni;
+        }
+
+        private void btn_presente_Click(object sender, EventArgs e)
+        {
+            int cantidad = alumnos.Count();
+            if (al < cantidad - 1)
+            {
+                al++;
+                lbl_alumno.Text = alumnos[al].Nombre + " " + alumnos[al].Apellido;
+                label1.Text = alumnos[al].Dni;
+               
+            }
         }
     }
 }
