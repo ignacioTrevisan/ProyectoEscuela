@@ -15,6 +15,11 @@ namespace NegocioAlumnos
         {
             return datosProfesores.insertar(p);
         }
+        public static int modificar(profesor p) 
+        {
+
+            return datosProfesores.modificar(p);
+        }
 
         public static int buscarDirectivo(string dni, string pass) {
             int bol = datosProfesores.buscarDirectivo(dni, pass);
@@ -25,7 +30,14 @@ namespace NegocioAlumnos
             List<Nota> lista = new List<Nota>();
             return datosProfesores.GetPermisos(id);
         }
+        public static profesor getProfesor(string dni) 
+        {
+            return datosProfesores.getProfesor(dni);
+        }
 
-
+        public static void eliminar(string text)
+        {
+            datosProfesores.eliminar(text);
+        }
     }
 }

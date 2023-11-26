@@ -106,8 +106,12 @@ namespace ProyectoEscuela
             string para = Negocio.NegocioAlumnos.getgmail(textBox2.Text);
             string asunto = textBox3.Text;
             DateTime fecha = DateTime.Now.Date;
-
-            enviarCorreo (mensajeBuilder, fecha, de, para, asunto, out error);
+            DialogResult res = MessageBox.Show("¿El correo electronico se enviar a: "+para+" confirma enviar?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                enviarCorreo(mensajeBuilder, fecha, de, para, asunto, out error);
+            }
+            
         }
         private static void enviarCorreo(StringBuilder mensaje, DateTime fecha, string de, string para, string asunto, out string error) 
         {
@@ -115,7 +119,6 @@ namespace ProyectoEscuela
             try
             {
                 mensaje.Append(Environment.NewLine);
-                mensaje.Append(string.Format("correo {0:dd/MM/yyyy} a las {0:hh:mm:ss} horas , \n\n", fecha));
                 mensaje.Append(Environment.NewLine);
                 MailMessage ms = new MailMessage();
                 ms.From = new MailAddress(de);
