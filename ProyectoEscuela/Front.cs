@@ -20,11 +20,14 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Mail;
 
 namespace ProyectoEscuela
 {
     public partial class Front : Form
     {
+        const string usuario = "Luggrenadriana@gmail.com";
+        const string password = "jyfi avhd kalc fgqp"; 
         string cargo = GlobalVariables.cargo;
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/DocumentosPDF";
         public Front()
@@ -96,42 +99,44 @@ namespace ProyectoEscuela
 
         private void button4_Click(object sender, EventArgs e)
         {
-            FileStream fs = new FileStream(@"C:\Users\nacho\Documentos\informes\pdfGenerado.pdf", FileMode.Create);
-            Document doc = new Document(PageSize.LETTER,5,5,7,7);
-            PdfWriter pw = PdfWriter.GetInstance(doc, fs);
+            string error = "";
+            StringBuilder mensajeBuilder = new StringBuilder();
+            mensajeBuilder.Append(textBox4.Text);
+            string de = textBox1.Text;
+            string para = textBox2.Text;
+            string asunto = textBox3.Text;
+            DateTime fecha = DateTime.Now.Date;
 
-            doc.Open();
-
-            doc.AddAuthor(cargo);
-            doc.AddTitle(GlobalVariables.cargo);
-
-            iTextSharp.text.Font stamdarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-            doc.Add(new Paragraph(GlobalVariables.cargo));
-            doc.Add(Chunk.NEWLINE);
-
-            PdfPTable tablaejemplo = new PdfPTable(3);
-            tablaejemplo.WidthPercentage = 100;
-
-            PdfPCell clnombre = new PdfPCell(new Phrase("Nombre", stamdarFont));
-            clnombre.BorderWidth = 0;
-            clnombre.BorderWidthBottom = 0.75f;
-
-
-            PdfPCell clapellido = new PdfPCell(new Phrase("Apellido", stamdarFont));
-            clapellido.BorderWidth = 0;
-            clapellido.BorderWidthBottom = 0.75f;
-
-            PdfPCell clEdad = new PdfPCell(new Phrase("Edad", stamdarFont));
-            clEdad.BorderWidth = 0;
-            clEdad.BorderWidthBottom = 0.75f;
-
-            tablaejemplo.AddCell(clnombre);
-            tablaejemplo.AddCell(clapellido);
-            tablaejemplo.AddCell(clEdad);
-            doc.Add(tablaejemplo);
-            doc.Close();
-            pw.Close();
+            enviarCorreo (mensajeBuilder, fecha, de, para, asunto, out error);
+        }
+        private static void enviarCorreo(StringBuilder mensaje, DateTime fecha, string de, string para, string asunto, out string error) 
+        {
+            error = "";
+            try
+            {
+                mensaje.Append(Environment.NewLine);
+                mensaje.Append(string.Format("correo {0:dd/MM/yyyy} a las {0:hh:mm:ss} horas , \n\n", fecha));
+                mensaje.Append(Environment.NewLine);
+                MailMessage ms = new MailMessage();
+                ms.From = new MailAddress(de);
+                ms.To.Add(para);
+                ms.Subject = asunto;
+                ms.Body = mensaje.ToString();
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                smtp.Port = 587;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(usuario, password);
+                smtp.EnableSsl = true;
+                smtp.Send(ms);
+                error = "Correo enviado exitosamente ";
+                MessageBox.Show(error);
+            }
+            catch (Exception ex)    
+            {
+                error = "Error: "+ ex.Message;
+                MessageBox.Show(error);
+                return;
+            }
         }
 
     }
