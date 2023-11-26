@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using EntidadPermiso;
 using System.Data;
+using System.Net;
+using iTextSharp.text;
 
 namespace DatosAlumnos
 {
@@ -325,6 +327,26 @@ namespace DatosAlumnos
                 }
             }
             return list;
+        }
+
+        public static string getgmail(string text)
+        {
+            string gmail = "";
+            string conString = System.Configuration.ConfigurationManager.ConnectionStrings["ConexionDB"].ConnectionString;
+            using (SqlConnection Connection = new SqlConnection(conString))
+            {
+                Connection.Open();
+                
+                SqlCommand command = new SqlCommand("getGmail", Connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@dni", text);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    gmail = Convert.ToString(reader["email"]);
+                }
+            }
+            return gmail;
         }
     }
 }

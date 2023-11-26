@@ -115,6 +115,11 @@ namespace Negocio
 
             return AlumnosDatos.buscarfaltas(dni);
         }
+
+        public static string getgmail(string text)
+        {
+            return AlumnosDatos.getgmail(text);
+        }
     }
    
 }

@@ -102,8 +102,8 @@ namespace ProyectoEscuela
             string error = "";
             StringBuilder mensajeBuilder = new StringBuilder();
             mensajeBuilder.Append(textBox4.Text);
-            string de = textBox1.Text;
-            string para = textBox2.Text;
+            string de = "nachotizii988@gmail.com";
+            string para = Negocio.NegocioAlumnos.getgmail(textBox2.Text);
             string asunto = textBox3.Text;
             DateTime fecha = DateTime.Now.Date;
 
